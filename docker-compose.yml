@@ -11,7 +11,7 @@ services:
   alertmanager-bot: 
     container_name: alertmanager-bot
     command:
-    - --alertmanager.url=http://79.143.178.128:9093    
+    - --alertmanager.url=http://75.119.131.243:9093    
     - --log.level=info
     - --store=bolt
     - --bolt.path=/data/bot.db
