@@ -5,7 +5,7 @@ groups:
    - alert: Near
      # This alert will triger if you node is dowm
      expr: up{instance="75.119.131.243:3030"} == 0
-     for: 1m
+     for: 1s
      # Annotation - additional informational labels to store more information
      annotations:
        title: 'Instance {{ $labels.instance }} down'
@@ -15,13 +15,14 @@ groups:
        severity: 'critical'
 
      # Chose your 'name' 
-   - alert: Near
+   - alert: Near_Total_Blocks
      # This alert will triger if you node is dowm
      expr: near_block_total{instance="75.119.131.243:3030"} > 0                          
-     for: 1m
+     for: 1s
      # Annotation - additional informational labels to store more information
      annotations:
        title: 'Instance {{ $labels.instance }} blockheight'
+       description: '{{ $labels.instance }} of job {{ $labels.job }} is producing blocks.'
      # Labels - additional labels to be attached to the alert
      labels:
        severity: 'critical'  
