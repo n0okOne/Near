@@ -11,14 +11,14 @@ services:
   alertmanager-bot: 
     container_name: alertmanager-bot
     command:
-    - --alertmanager.url=http://75.119.131.243:9093    
+    - --alertmanager.url=http://185.229.119.166:9093    
     - --log.level=info
     - --store=bolt
     - --bolt.path=/data/bot.db
     environment:
       TELEGRAM_ADMIN: "1933874030" 
       TELEGRAM_TOKEN: 2132175026:AAHvN6jPaRgXhvj1lAiT7RgirPkfpOz3a2o  
-    image: metalmatze/alertmanager-bot:0.4.3
+    image: metalmatze/alertmanager-bot:latest
     networks:
     - alertmanager-bot
     ports:
@@ -28,7 +28,7 @@ services:
     - ./bot_data:/data
 
   prometheus:
-    image: prom/prometheus:v2.3.0
+    image: prom/prometheus:latest
     container_name: prometheus
     ports:
       - 9095:9090
@@ -52,7 +52,7 @@ services:
       - '--storage.path=/alertmanager'
 
   nodeexporter:
-    image: prom/node-exporter:v1.3.0
+    image: prom/node-exporter:latest
     container_name: nodeexporter
     volumes:
       - /proc:/host/proc:ro
@@ -71,7 +71,7 @@ services:
 
 
   grafana:
-    image: grafana/grafana:7.2.1
+    image: grafana/grafana:latest
     depends_on:
       - prometheus
     ports:
