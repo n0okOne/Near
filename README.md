@@ -1,3 +1,6 @@
+This is basic version of Near nodes infrastructure monitoring.
+Main goal was to keep as simpl as possible.
+
 Near monitoring tools.
 - grafana
 - prometheus
@@ -16,3 +19,6 @@ Instruction:
 3.Configure
 
 4.Start containers
+
+
+# feel free to update and modify 
