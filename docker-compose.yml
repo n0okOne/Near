@@ -97,8 +97,8 @@ services:
     - --store=bolt
     - --bolt.path=/data/bot.db
     environment:
-      TELEGRAM_ADMIN: "1933874030"
-      TELEGRAM_TOKEN: 2132175026:AAHvN6jPaRgXhvj1lAiT7RgirPkfpOz3a2o 
+      TELEGRAM_ADMIN: "xxxxxxx" # telegram admin token to give control of the bot
+      TELEGRAM_TOKEN: xxxxxxx # telegram bot token
     image: metalmatze/alertmanager-bot:0.4.3
     container_name: alertmanager-bot
     ports:
