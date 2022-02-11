@@ -20,7 +20,7 @@ scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
     static_configs:
-    - targets: ['185.229.119.166:9095']
+    - targets: ['xxxxxxxxx:9095'] # replace xxxxx with ip address
 
   - job_name: node-exporter
     scrape_interval: 5s
@@ -28,41 +28,41 @@ scrape_configs:
     - targets: ['nodeexporter:9100'] 
       labels:
         label: "testnet"
-    - targets: ['207.231.104.186:9111']
+    - targets: ['xxxxxxxxxx:9111'] # replace xxxxx with ip address
       labels:
         label: "guildnet"
-    - targets: ['208.51.60.26:9111']
+    - targets: ['xxxxxxxxxxx:9111'] # replace xxxxx with ip address
       labels:
         label: "mainnet"
         
   - job_name: near-exporter
     scrape_interval: 15s
     static_configs:
-    - targets: ['185.229.119.166:9333']
+    - targets: ['xxxxxxxxxxxxx:9333'] # replace xxxxx with ip address
       labels:
         label: "testnet"
-    - targets: ['207.231.104.186:9333']
+    - targets: ['xxxxxxxxxxx:9333'] # replace xxxxx with ip address
       labels:
         label: "guildnet"
-    - targets: ['208.51.60.26:9333']
+    - targets: ['xxxxxxxxxxx:9333'] # replace xxxxx with ip address
       labels:
         label: "mainnet"
 
   - job_name: near-client
     scrape_interval: 15s
     static_configs:
-    - targets: ['185.229.119.166:3030']
+    - targets: ['xxxxxxxxxxxxxx:3030'] # replace xxxxx with ip address
       labels:
         label: "testnet"
-    - targets: ['207.231.104.186:3030']
+    - targets: ['xxxxxxxxxxxxxx:3030'] # replace xxxxx with ip address
       labels:
         label: "guildnet"
-    - targets: ['208.51.60.26:3030']
+    - targets: ['xxxxxxxxxxxxxx:3030'] # replace xxxxx with ip address
       labels:
         label: "mainnet"
 
   - job_name: coingecko
     scrape_interval: 15s
     static_configs:
-    - targets: ['185.229.119.166:5000']
+    - targets: ['xxxxxxxxxxxxxxxx:5000'] # replace xxxxx with ip address
      
