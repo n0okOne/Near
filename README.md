@@ -1,3 +1,13 @@
 Near monitoring tools.
-- Grafana
-- Alert bot
+- grafana
+- prometheus
+- alertmanager       
+- alertmanager-bot          
+- near-exporter      
+- nodeexporter       
+- coingecko-exporter 
+
+Instruction:
+
+1.Install docker and docker-compose 
+

@@ -1,31 +1,15 @@
 version: "3"
 
+networks:
+  monitoring:
+    driver: bridge
+
 volumes:
   prometheus_data: {}
   grafana_data: {}
   bot_data: {}
-networks:
-  alertmanager-bot: {}
 
 services:
-  alertmanager-bot: 
-    container_name: alertmanager-bot
-    command:
-    - --alertmanager.url=http://185.229.119.166:9093    
-    - --log.level=info
-    - --store=bolt
-    - --bolt.path=/data/bot.db
-    environment:
-      TELEGRAM_ADMIN: "1933874030" 
-      TELEGRAM_TOKEN: 2132175026:AAHvN6jPaRgXhvj1lAiT7RgirPkfpOz3a2o  
-    image: metalmatze/alertmanager-bot:latest
-    networks:
-    - alertmanager-bot
-    ports:
-    - 8080:8080
-    restart: always
-    volumes:
-    - ./bot_data:/data
 
   prometheus:
     image: prom/prometheus:latest
@@ -38,9 +22,11 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     restart: unless-stopped
+    networks:
+      - monitoring
 
   alertmanager:
-    image: prom/alertmanager
+    image: prom/alertmanager:latest
     container_name: alertmanager
     ports:
       - 9093:9093
@@ -50,6 +36,8 @@ services:
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
+    networks:
+      - monitoring
 
   nodeexporter:
     image: prom/node-exporter:latest
@@ -68,7 +56,8 @@ services:
       - 9100
     labels:
       org.label-schema.group: "monitoring"
-
+    networks:
+      - monitoring
 
   grafana:
     image: grafana/grafana:latest
@@ -82,10 +71,40 @@ services:
     env_file:
       - ./grafana/config.monitoring
     restart: unless-stopped
-
+    networks:
+      - monitoring
   near-exporter:
     image: masknetgoal634/near-prometheus-exporter:latest
     container_name: near-exporter
     ports:
       - 9333:9333
-    network_mode: host
+    networks:
+      - monitoring
+  coingecko-exporter:
+    image: ruanbekker/coingecko-exporter
+    container_name: coingecko-exporter
+    environment:
+      - CRYPTO_COINS=near
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+    networks:
+      - monitoring
+  alertmanager-bot:
+    command:
+    - --alertmanager.url=http://alertmanager:9093
+    - --log.level=info
+    - --store=bolt
+    - --bolt.path=/data/bot.db
+    environment:
+      TELEGRAM_ADMIN: "1933874030"
+      TELEGRAM_TOKEN: 2132175026:AAHvN6jPaRgXhvj1lAiT7RgirPkfpOz3a2o 
+    image: metalmatze/alertmanager-bot:0.4.3
+    container_name: alertmanager-bot
+    ports:
+    - 8080:8080
+    restart: always
+    volumes:
+    - ./data:/data
+    networks:
+    - monitoring

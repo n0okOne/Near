@@ -19,24 +19,50 @@ rule_files:
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
-
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-
     static_configs:
     - targets: ['185.229.119.166:9095']
 
-  - job_name: node
+  - job_name: node-exporter
     scrape_interval: 5s
     static_configs:
-    - targets: ['nodeexporter:9100']
-
+    - targets: ['nodeexporter:9100'] 
+      labels:
+        label: "testnet"
+    - targets: ['207.231.104.186:9111']
+      labels:
+        label: "guildnet"
+    - targets: ['208.51.60.26:9111']
+      labels:
+        label: "mainnet"
+        
   - job_name: near-exporter
     scrape_interval: 15s
     static_configs:
     - targets: ['185.229.119.166:9333']
+      labels:
+        label: "testnet"
+    - targets: ['207.231.104.186:9333']
+      labels:
+        label: "guildnet"
+    - targets: ['208.51.60.26:9333']
+      labels:
+        label: "mainnet"
 
-  - job_name: near-node
+  - job_name: near-client
     scrape_interval: 15s
     static_configs:
     - targets: ['185.229.119.166:3030']
+      labels:
+        label: "testnet"
+    - targets: ['207.231.104.186:3030']
+      labels:
+        label: "guildnet"
+    - targets: ['208.51.60.26:3030']
+      labels:
+        label: "mainnet"
+
+  - job_name: coingecko
+    scrape_interval: 15s
+    static_configs:
+    - targets: ['185.229.119.166:5000']
+     

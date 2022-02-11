@@ -2,28 +2,134 @@ groups:
      # Chose your 'name' 
  - name: Nodes
    rules:
-   - alert: Near
+   - alert: Near-Testnet
      # This alert will triger if you node is dowm
-     expr: up{instance="75.119.131.243:3030"} == 0
-     for: 1s
+     expr: up{job="near-client", label="testnet"} == 0
+     for: 1m
      # Annotation - additional informational labels to store more information
      annotations:
-       title: 'Instance {{ $labels.instance }} down'
        description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute.'
      # Labels - additional labels to be attached to the alert
      labels:
        severity: 'critical'
 
-     # Chose your 'name' 
-   - alert: Near_Total_Blocks
+   - alert: Near-Guildnet
      # This alert will triger if you node is dowm
-     expr: near_block_total{instance="75.119.131.243:3030"} > 0                          
+     expr: up{job="near-client", label="guildnet"} == 0
+     for: 1m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'critical'
+
+   - alert: Near-Mainnet
+     # This alert will triger if you node is dowm
+     expr: up{job="near-client", label="mainnet"} == 0
+     for: 1m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'critical'
+
+   - alert: Near-Testnet
+     # This alert will triger if you node is dowm
+     expr: sum (near_validators_blocks_expected{account_id="domanodes.pool.f863973.m0"} - near_validators_blocks_produced{account_id="domanodes.pool.f863973.m0"}) >= 1
      for: 1s
      # Annotation - additional informational labels to store more information
      annotations:
-       title: 'Instance {{ $labels.instance }} blockheight'
-       description: '{{ $labels.instance }} of job {{ $labels.job }} is producing blocks.'
+       description: '{{ $labels.instance }} of job {{ $labels.job }} is missing blocks.'
      # Labels - additional labels to be attached to the alert
      labels:
-       severity: 'critical'  
-   
+       severity: 'critical'
+
+   - alert: Near-Guildnet
+     # This alert will triger if you node is dowm
+     expr: sum (near_validators_blocks_expected{account_id="domanode.stake.guildnet"} - near_validators_blocks_produced{account_id="domanode.stake.guildnet"}) >= 1
+     for: 1s
+     # Annotation - additional informational labels to store more information
+     annotations:
+       description: '{{ $labels.instance }} of job {{ $labels.job }} is missing blocks.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'critical'
+
+   - alert: Near-Mainnet
+     # This alert will triger if you node is dowm
+     expr: sum (near_validators_blocks_expected{account_id="domanodes.poolv1.near"} - near_validators_blocks_produced{account_id="domanodes.poolv1.near"}) >= 1
+     for: 1s
+     # Annotation - additional informational labels to store more information
+     annotations:
+       description: '{{ $labels.instance }} of job {{ $labels.job }} is missing blocks..'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'critical'
+
+   - alert: Near-Testnet-host
+     # This alert will triger if you node is dowm
+     expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 85
+     for: 0m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       description: "CPU load is > 85%\n Instance: {{ $labels.label }}; host: {{ $labels.instance }}"
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'warning'
+
+   - alert: Near-Guildnet-host
+     # This alert will triger if you node is dowm
+     expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 85
+     for: 0m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       description: "CPU load is > 85%\n Instance: {{ $labels.label }}; host: {{ $labels.instance }}"
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'warning'
+
+   - alert: Near-Mainnet-host
+     # This alert will triger if you node is dowm
+     expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 85
+     for: 0m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       description: "CPU load is > 85%\n Instance: {{ $labels.label }}; host: {{ $labels.instance }}"
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'warning'       
+
+   - alert: Near-Testnet
+     # This alert will triger if you node is dowm
+     expr: node_memory_MemAvailable_bytes{label="testnet"} / node_memory_MemTotal_bytes{label="testnet"} * 100 < 20
+     for: 1m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       description: "Host memory is filling up (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'warning'
+
+   - alert: Near-Guildnet
+     # This alert will triger if you node is dowm
+     expr: node_memory_MemAvailable_bytes{label="testnet"} / node_memory_MemTotal_bytes{label="testnet"} * 100 < 20
+     for: 1m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       description: "Host memory is filling up (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'warning'
+
+   - alert: Near-Mainnet
+     # This alert will triger if you node is dowm
+     expr: node_memory_MemAvailable_bytes{label="testnet"} / node_memory_MemTotal_bytes{label="testnet"} * 100 < 20
+     for: 1m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       description: "Host memory is filling up (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'warning'
